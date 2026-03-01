@@ -1,0 +1,22 @@
+                                                                                        THE GOLD STANDARD
+
+Phase 1: The Sanity Check (The Foundation):-
+
+Before training on my full dataset, I must ensure that my model is capable of learning at all, so I will train my model on a single sample from the dataset, as I want to see the loss decrease near zero, and if I can not overfit a single sample, there is a bug in my code.
+
+
+Phase 2: Establish a Baseline:-
+
+If my code is verified, the next step is using a simple Model (like a few linear layers or a basic CNN) and using my full training dataset to get a good performance model.
+
+Phase 3: Reduce Bias (Fix Underfitting):-
+
+If my simple model performance is poor on both training and validation sets, my model is too simple and needs to increase model complexity(adding more layers, more hidden units), and the desired outcome error should decrease.
+
+Phase 4: Reduce Variance (Fix Overfitting):-
+
+Now my model is a complex model that performs well on training data and poorly on unseen data, solving this by applying regularization techniques(randomly shut off neurons during training, (L1, L2) regularization for large weights, stop training when validation loss starts to rise, increasing the dataset size).
+
+Reproducibility:-
+
+Setting random seeds, moving my model into( .py) files, and creating a (requirements.txt).
