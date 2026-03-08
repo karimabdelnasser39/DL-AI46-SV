@@ -1,0 +1,29 @@
+1. Project Overview and Domain Analysis
+    The objective of this project was to implement and evaluate image classification models on the Intel Image Classification dataset, which consists of high-variance natural scene images (buildings, forest, glacier, mountain, sea, street). Unlike low-resolution benchmarks (e.g., MNIST), this domain requires models to extract global structural features and varied textures.
+
+2. Methodology and Architecture
+    We implemented three primary architectural paradigms to compare performance:
+        Multi-Layer Perceptron (MLP): Served as the baseline. It flattens the $64 \times 64$ RGB input into a $12,288$-dimension vector, which inherently discards spatial dependencies.
+        Custom CNN: Designed using the pyramid structure—successive convolution layers followed by MaxPool2d to progressively reduce spatial resolution while increasing filter depth.
+        Transfer Learning (ResNet-18): Leveraged weights pre-trained on ImageNet. We explored:
+              Scenario 3-A: Frozen feature extractor.
+              Scenario 3-B: Partial fine-tuning of high-level layers.
+              Scenario 3-C: Full model fine-tuning.
+3. Data Engineering: Lazy Loading
+   A critical component of this project was managing memory constraints. By utilizing a custom Dataset class, we implemented Lazy Loading. Instead of loading thousands of images into RAM, we stored only the file paths and performed Image.open() dynamically during the DataLoader iteration.
+4. Evaluation and Results
+   The evaluation was based on training loss convergence, validation accuracy, and internal weight visualization.
+                 Model       Training Strategy      Accuracy        Convergence Speed
+                 MLP            From Scratch         Low                 Very Slow
+                 Simple CNN     From Scratch         Moderate            Moderate
+                 ResNet (3-C)   Full Finetuning      Highest             Fast
+
+Key Commentary on Results:
+Filter Visualization: Before training, convolutional filters displayed random noise. After training, the emergence of Gabor-like filters provided visual evidence that the model had successfully learned to identify edges and textures.
+
+Confusion Analysis: The confusion matrix revealed that the model struggled most with 'forest' and 'mountain' categories. This is attributed to the high visual similarity in textures between these two natural landscape domains.
+
+Transfer Learning Impact: Transitioning to 3-C (Full Finetuning) yielded the highest accuracy, confirming that leveraging pre-learned visual primitives from ImageNet is superior for high-complexity natural scene classification.
+
+5. Conclusion
+The experimental results demonstrate that while custom CNNs can achieve baseline success, their performance is limited by architectural depth and the risk of overfitting on small samples. Transfer Learning provides a robust solution, significantly accelerating convergence and improving classification precision by utilizing high-level feature representations. The implementation of lazy loading proved essential for scaling the training process without memory degradation.
